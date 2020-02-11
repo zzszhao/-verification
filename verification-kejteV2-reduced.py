@@ -18,7 +18,7 @@ def theta(state):
                 for j in range(dd):
                         tempstate[i].append(state[i][j])
                         for k in range(5):
-                                tempstate[i][j]+=state[(i%5+5-1)%5+5*k][j]+state[(i%5+1+5)%5+5*k][(j-1+64)%dd]
+                                tempstate[i][j]+=state[(i%5+5-1)%5+5*k][j]+state[(i%5+1+5)%5+5*k][(j-1+8)%dd]
 
         for i in range(25):
                 for j in range(dd):
@@ -60,17 +60,17 @@ def chi(state):
         for i in range(25):
                 for j in range(dd):
                         state[i][j]=tempstate[i][j]
-#ketje 填充
+#ketje padding 
 state=[[] for i in range(25)]
 
 for i in range(25):
         for j in range(dd):
                 state[i].append(Keccak(0))
-keylane=[1,2,3,4,5,6,7,8,9]
+keylane=[6,12,18,24,3,9,10,16,22,1]
 for i in range(len(keylane)):
         for j in range(dd):
-                state[keylane[i]][j]=k(i*8+j)#填充密钥
-#填充比特
+                state[keylane[i]][j]=k(i*8+j)# padding key
+#padding
 tianchong1=[0,1,0,0,1,0,0,0]
 tianchong2=[1,0,0,0,0,0,0,0]
 tianchong3=[1,1]
@@ -78,63 +78,54 @@ tianchong3=[1,1]
 for i in range(8):
         state[0][i]=tianchong1[i]
 for i in range(8):
-        state[10][i]=tianchong2[i]
+        state[19][i]=tianchong2[i]
 for i in range(2):
-        state[24][i+6]=tianchong3[i]
+        state[21][i+6]=tianchong3[i]
 
-#32个立方变量
+#32 cube
 for i in range(8):
-        state[11][i]=v(2*i)
-        state[16][i]=v(2*i+1)
-        state[21][i]=v(2*i)+v(2*i+1)
+        state[5][i]=v(2*i)
+        state[15][i]=v(2*i+1)
+        state[20][i]=v(2*i)+v(2*i+1)
+
+        state[8][i]=v(2*i+16)
+        state[13][i]=v(2*i+17)
+        state[23][i]=v(2*i+16)+v(2*i+17)
 
 
-state[18][0]=v(16)
-state[23][0]=v(16)
+#14 auxiliary variables
+for i in range(8):
+        state[4][i]=state[14][i]=state[19][i]=k(32+i)+k(16+i)+k(47+i)
 
-state[18][7]=v(17)
-state[23][7]=v(17)
+state[4][0]=k(32)+k(16)+k(55)
+state[14][0]=k(32)+k(16)+k(55)
+state[19][0]=k(32)+k(16)+k(55)
 
 for i in range(6):
-        state[14][i]=v(18+2*i)
-        state[19][i]=v(18+2*i+1)
-        state[24][i]=v(18+2*i)+v(18+2*i+1)
+        state[11][i]=k(48+i)+k(7+i)+k(63+i)
+        state[21][i]=k(48+i)+k(7+i)+k(63+i)
+state[11][0]=k(48)+k(15)+k(71)
+state[21][0]=k(48)+k(15)+k(71)
 
-state[14][6]=v(30)
-state[19][6]=v(30)
-
-state[14][7]=v(31)
-state[19][7]=v(31)
-
-
-#29个辅助变量
-
-for i in range(8):
-        state[11][i]=v(2*i)+k(0+i)+k(40+i)
-for i in range(3,8):
-        state[12][i]=k(8+i)+k(48+i)
-for i in range(8):
-        state[23][i]=k(16+i)+k(56+i)
-
-state[23][0]=v(16)+k(16)+k(56)
-state[23][7]=v(17)+k(23)+k(63)
-
-for i in range(7):
-        state[14][i]=v(18+2*i)+k(24+i)+k(64+i)
-state[14][7]=v(31)+k(31)+k(71)
 set2=set()
+
 aa=[0]
 aa1=[]
-#一轮
+
+
+#one round
 theta(state)
 rio(state)
 pi(state)
 chi(state)
 
-#看一轮之后，与立方变量相乘的密钥比特
+#after one round 
+
+
 set1=set()
 set3=set()
 set4=set()
+
 state3=[]
 state2=[0]
 tt=0
@@ -159,9 +150,8 @@ for i in range(25):
                                         cc=cc+'+'+str(bb[n])
                                 set4.add(cc)
 
-#输出依然相关密钥比特数量和值
+#output and compute
 print(len(set4))
-cc=list(set4)
-cc.sort()
-for i in range(len(cc)):
-        print(cc[i])
+
+for bbb in set4:
+        print(bbb)

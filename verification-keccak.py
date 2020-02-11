@@ -62,7 +62,7 @@ def chi(state):
                         state[i][j]=tempstate[i][j]
 
 
-#keccak填充                                                                                                                                                             state=[[] for i in range(25)]
+#keccak padding                                                                                                                                                             state=[[] for i in range(25)]
 
 for i in range(25):
         for j in range(dd):
@@ -70,9 +70,9 @@ for i in range(25):
 keylane=[0,1]
 for i in range(len(keylane)):
         for j in range(dd):
-                state[keylane[i]][j]=k(i*64+j)#填充密钥
+                state[keylane[i]][j]=k(i*64+j)# padding key
 
-#64个立方变量
+#64 cube
 
 
 state[2][0]=state[7][0]=v(0)
@@ -153,7 +153,7 @@ state[6][43]=v(62)
 state[6][53]=v(63)
 
 
-#44个辅助变量
+#44 auxiliary variables
 state[5][0]=k(0)
 state[5][1]=k(1)
 state[5][2]=k(2)
@@ -222,13 +222,13 @@ aa=[0]
 aa1=[]
 
 
-#一轮
+#one round
 theta(state)
 rio(state)
 pi(state)
 chi(state)
 
-#看一轮之后，与立方变量相乘的密钥比特
+#after one round 
 set1=set()
 set3=set()
 set4=set()
@@ -257,7 +257,7 @@ for i in range(25):
                                         cc=cc+'+'+str(bb[n])
                                 set4.add(cc)
 
-#输出依然相关密钥比特的个数和值
+#output and compute
 print(len(set4))
 cc=list(set4)
 

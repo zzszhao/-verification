@@ -59,7 +59,7 @@ def chi(state):
         for i in range(25):
                 for j in range(dd):
                         state[i][j]=tempstate[i][j]
-#ketje 填充
+#ketje padding
 state=[[] for i in range(25)]
 
 for i in range(25):
@@ -68,8 +68,8 @@ for i in range(25):
 keylane=[6,12,18,24,3,9,10,16,22,1,7,13]
 for i in range(len(keylane)):
         for j in range(dd):
-                state[keylane[i]][j]=k(i*8+j)#填充密钥
-#填充比特
+                state[keylane[i]][j]=k(i*8+j)# padding key
+#padding
 tianchong1=[0,1,0,0,1,0,0,0]
 tianchong2=[1,0,0,0,0,0,0,0]
 tianchong3=[1,1]
@@ -81,14 +81,14 @@ for i in range(8):
 for i in range(2):
         state[21][i+6]=tianchong3[i]
 
-#16个立方变量
+#16 cube
 for i in range(8):
         state[8][i]=v(i)
         state[23][i]=v(i)
         state[5][i]=v(i+8)
         state[15][i]=v(i+8)
 
-#12个辅助变量
+#12 auxiliary variables
 for i in range(1,8):
         state[4][i]=k(32+i)+k(88+i)+k(16+i)+k(47+i)
         state[14][i]=k(32+i)+k(88+i)+k(16+i)+k(47+i)
@@ -106,13 +106,13 @@ aa=[0]
 aa1=[]
 
 
-#一轮
+#one round
 theta(state)
 rio(state)
 pi(state)
 chi(state)
 
-#看一轮之后，与立方变量相乘的密钥比特
+#after one round 
 
 
 set1=set()
@@ -143,7 +143,7 @@ for i in range(25):
                                         cc=cc+'+'+str(bb[n])
                                 set4.add(cc)
 
-#输出依然相关密钥比特数量和值
+#output and compute
 print(len(set4))
 
 cc=list(set4)
