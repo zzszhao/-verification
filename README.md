@@ -5,6 +5,7 @@ verification of the cube variables, auxiliary variables and involved key bits sa
 verification: ***.py (sagemath)
 
 About six cube for 5-round Ketje-Jr, some details are following:
+
 The second cube-attack-like has 15 auxiliary variables and 14 involved keys bits.
 Because in the first one cube-attack-like, we have known 24 key information, 
 so now we have 10 unknown auxiliary variables and 8 unknown involved keys bits. 
